@@ -46,10 +46,4 @@ public class User {
 	@NotBlank
 	@NotNull
 	private String password;
-
-	@OneToOne(mappedBy = "user")
-	private Seeker seeker;
-
-	@OneToOne(mappedBy = "user")
-	private Employer employer;
 }

@@ -1,5 +1,7 @@
 package io.kodlama.hrms.business.concretes;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,8 +11,10 @@ import io.kodlama.hrms.business.checks.SeekerCheckTool;
 import io.kodlama.hrms.core.business.BusinessRules;
 import io.kodlama.hrms.core.dataAccess.UserDao;
 import io.kodlama.hrms.core.entities.User;
+import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.ErrorResult;
 import io.kodlama.hrms.core.utilities.results.Result;
+import io.kodlama.hrms.core.utilities.results.SuccessDataResult;
 import io.kodlama.hrms.core.utilities.results.SuccessResult;
 import io.kodlama.hrms.dataAccess.abstracts.SeekerDao;
 import io.kodlama.hrms.entities.concretes.Seeker;
@@ -90,6 +94,11 @@ public class SeekerManager implements SeekerService {
 			return new ErrorResult("Parola uyuşmazlığı");
 		}
 		return new SuccessResult();
+	}
+
+	@Override
+	public DataResult<List<Seeker>> getAll() {
+		return new SuccessDataResult<List<Seeker>>(this.seekerDao.findAll(), "İş arayanlar listelendi");
 	}
 
 }

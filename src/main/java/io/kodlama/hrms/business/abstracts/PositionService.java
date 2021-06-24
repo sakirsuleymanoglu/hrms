@@ -8,5 +8,6 @@ import io.kodlama.hrms.entities.concretes.Position;
 
 public interface PositionService {
 	DataResult<List<Position>> getAll();
+
 	Result add(Position position);
 }
