@@ -3,20 +3,32 @@ package io.kodlama.hrms.entities.concretes;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import io.kodlama.hrms.core.entities.User;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "employers")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Employer {
 
-	@Column(name = "id")
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private int id;
-
-	@Column(name = "user_id")
-	private int userId;
+	
+	@OneToOne
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	private User user;
 
 	@Column(name = "company_name")
 	private String companyName;
@@ -27,55 +39,5 @@ public class Employer {
 	@Column(name = "telephone_number")
 	private String telephoneNumber;
 
-	public Employer() {
-
-	}
-
-	public Employer(int id, int userId, String companyName, String webSite, String telephoneNumber) {
-		this.id = id;
-		this.userId = userId;
-		this.companyName = companyName;
-		this.webSite = webSite;
-		this.telephoneNumber = telephoneNumber;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
-
-	public String getWebSite() {
-		return webSite;
-	}
-
-	public void setWebSite(String webSite) {
-		this.webSite = webSite;
-	}
-
-	public String getTelephoneNumber() {
-		return telephoneNumber;
-	}
-
-	public void setTelephoneNumber(String telephoneNumber) {
-		this.telephoneNumber = telephoneNumber;
-	}
+	
 }

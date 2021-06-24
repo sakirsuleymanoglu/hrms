@@ -1,54 +1,55 @@
-package io.kodlama.hrms.entities.concretes;
+package io.kodlama.hrms.core.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import io.kodlama.hrms.core.entities.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import io.kodlama.hrms.entities.concretes.Employer;
+import io.kodlama.hrms.entities.concretes.Seeker;
 import lombok.NoArgsConstructor;
 
+import lombok.AllArgsConstructor;
+
+import lombok.Data;
+
 @Entity
-@Table(name = "seekers")
+@Table(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Seeker {
+public class User {
 
+	public User(String email, String password) {
+		this.email = email;
+		this.password = password;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 
-	@OneToOne
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	private User user;
-
-	@Column(name = "nationality_id")
+	@Column(name = "email")
+	@Email
 	@NotBlank
 	@NotNull
-	private String nationalityId;
+	private String email;
 
-	@Column(name = "name")
+	@Column(name = "password")
 	@NotBlank
 	@NotNull
-	private String name;
+	private String password;
 
-	@Column(name = "surname")
-	@NotBlank
-	@NotNull
-	private String surname;
+	@OneToOne(mappedBy = "user")
+	private Seeker seeker;
 
-	@Column(name = "date_of_birth")
-	@NotBlank
-	@NotNull
-	private String dateOfBirth;
+	@OneToOne(mappedBy = "user")
+	private Employer employer;
 }
