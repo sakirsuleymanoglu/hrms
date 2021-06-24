@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.kodlama.hrms.business.abstracts.PositionService;
@@ -17,6 +18,7 @@ import io.kodlama.hrms.entities.concretes.Position;
 @RestController
 @RequestMapping("/api/positions/")
 public class PositionsController {
+	
 	private PositionService positionService;
 
 	public PositionsController(PositionService positionService) {
@@ -32,4 +34,5 @@ public class PositionsController {
 	public Result add(@RequestBody Position position) {
 		return this.positionService.add(position);
 	}
+
 }

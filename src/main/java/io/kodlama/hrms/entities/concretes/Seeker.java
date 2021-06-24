@@ -23,6 +23,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Seeker {
 
+	public Seeker(String nationalityId, String name, String surname, String dateOfBirth) {
+		this.nationalityId = nationalityId;
+		this.name = name;
+		this.surname = surname;
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public Seeker(User user, String nationalityId, String name, String surname, String dateOfBirth) {
+		this.user = user;
+		this.nationalityId = nationalityId;
+		this.name = name;
+		this.surname = surname;
+		this.dateOfBirth = dateOfBirth;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")

@@ -11,7 +11,7 @@ import tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy;
 public class KPSPublicAdapter implements SeekerCheckService {
 
 	@Override
-	public Result check(String nationalityId, String name, String surname, String dateOfBirth) {
+	public Result check(Seeker seeker) {
 
 		KPSPublicSoapProxy kpsPublicSoapProxy = new KPSPublicSoapProxy();
 
@@ -19,8 +19,8 @@ public class KPSPublicAdapter implements SeekerCheckService {
 
 		try {
 
-			boolean result = kpsPublicSoapProxy.TCKimlikNoDogrula(Long.parseLong(nationalityId), name, surname,
-					Integer.parseInt(dateOfBirth));
+			boolean result = kpsPublicSoapProxy.TCKimlikNoDogrula(Long.parseLong(seeker.getNationalityId()),
+					seeker.getName(), seeker.getSurname(), Integer.parseInt(seeker.getDateOfBirth()));
 
 			if (result) {
 				return new SuccessResult();

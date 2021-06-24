@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.SeekerService;
 import io.kodlama.hrms.business.checks.FakeCheckService;
-import io.kodlama.hrms.business.checks.KPSPublicAdapter;
 import io.kodlama.hrms.business.checks.SeekerCheckTool;
 import io.kodlama.hrms.core.business.BusinessRules;
 import io.kodlama.hrms.core.dataAccess.UserDao;
@@ -32,35 +31,30 @@ public class SeekerManager implements SeekerService {
 	@Override
 	public Result add(SeekerRegisterDto seekerRegisterDto) {
 
-		Result checkServiceResult = SeekerCheckTool.check(new FakeCheckService(), seekerRegisterDto.getNationalityId(),
-				seekerRegisterDto.getName(), seekerRegisterDto.getSurname(), seekerRegisterDto.getDateOfBirth());
+		Result checkServiceResult = SeekerCheckTool.check(new FakeCheckService(),
+				new Seeker(seekerRegisterDto.getNationalityId(), seekerRegisterDto.getName(),
+						seekerRegisterDto.getSurname(), seekerRegisterDto.getDateOfBirth()));
 
-		Result result = BusinessRules.run(checkServiceResult);
+		Result result = BusinessRules.run(checkServiceResult,
+				checkIfPasswordAndConfirmPasswordIsEqual(seekerRegisterDto.getPassword(),
+						seekerRegisterDto.getConfirmPassword()),
+				checkIfAlreadyExistsEmail(seekerRegisterDto.getEmail()),
+				checkIfAlreadyExistsNationalityId(seekerRegisterDto.getNationalityId()));
 
 		if (result != null) {
 			return result;
 		}
 
-		if (seekerRegisterDto.getPassword() == seekerRegisterDto.getConfirmPassword()) {
-
-			User user = new User(seekerRegisterDto.getEmail(), seekerRegisterDto.getPassword());
-
-			this.userDao.save(user);
-
-		} else {
-			return new ErrorResult("Parola uyuşmazlığı");
-		}
+		this.userDao.save(new User(seekerRegisterDto.getEmail(), seekerRegisterDto.getPassword()));
 
 		User user = this.userDao.findByEmail(seekerRegisterDto.getEmail());
 
 		if (user != null) {
 
-			Seeker seeker = new Seeker();
-			seeker.setUser(user);
-			seeker.setNationalityId(seekerRegisterDto.getNationalityId());
-			seeker.setName(seekerRegisterDto.getName());
-			seeker.setSurname(seekerRegisterDto.getSurname());
-			seeker.setDateOfBirth(seekerRegisterDto.getDateOfBirth());
+			Seeker seeker = new Seeker(user, seekerRegisterDto.getNationalityId(), seekerRegisterDto.getName(),
+					seekerRegisterDto.getSurname(), seekerRegisterDto.getDateOfBirth());
+
+			this.seekerDao.save(seeker);
 
 			return new SuccessResult("Kayıt başarıyla gerçekleşti");
 
@@ -69,6 +63,33 @@ public class SeekerManager implements SeekerService {
 			return new ErrorResult("Kayıt gerçekleşemedi");
 		}
 
+	}
+
+	private Result checkIfAlreadyExistsNationalityId(String nationalityId) {
+		Seeker seeker = this.seekerDao.getByNationalityId(nationalityId);
+
+		if (seeker != null) {
+			return new ErrorResult("Kullanıcı zaten mevcut");
+		}
+
+		return new SuccessResult();
+	}
+
+	private Result checkIfAlreadyExistsEmail(String email) {
+		User user = this.userDao.findByEmail(email);
+
+		if (user != null) {
+			return new ErrorResult("Kullanıcı zaten mevcut");
+		}
+
+		return new SuccessResult();
+	}
+
+	private Result checkIfPasswordAndConfirmPasswordIsEqual(String password, String confirmPassword) {
+		if (!password.equals(confirmPassword)) {
+			return new ErrorResult("Parola uyuşmazlığı");
+		}
+		return new SuccessResult();
 	}
 
 }
