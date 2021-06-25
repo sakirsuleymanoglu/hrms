@@ -15,11 +15,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "positions")
+@Table(name = "cities")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Position {
+public class City {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,8 @@ public class Position {
 
 	@Column(name = "name")
 	private String name;
-	
-	@OneToMany(mappedBy = "position")
+
+	@OneToMany(mappedBy = "city")
 	private List<Advertisement> advertisements;
+
 }
