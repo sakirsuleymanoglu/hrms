@@ -1,15 +1,20 @@
 package io.kodlama.hrms.entities.concretes;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.kodlama.hrms.core.entities.User;
 import lombok.AllArgsConstructor;
@@ -66,7 +71,25 @@ public class Seeker {
 	@NotBlank
 	@NotNull
 	private String dateOfBirth;
-	
+
 	@OneToOne(mappedBy = "seeker")
 	private CurriculumVitae curriculumVitae;
+
+	@OneToMany(mappedBy = "seeker")
+	private List<School> schools;
+
+	@OneToMany(mappedBy = "seeker")
+	private List<Experience> experiences;
+
+	@OneToMany(mappedBy = "seeker")
+	private List<Language> languages;
+
+	@OneToMany(mappedBy = "seeker")
+	private List<LangTechno> langTechnos;
+
+	@OneToOne(mappedBy = "seeker")
+	private LinkedinAccount linkedinAccount;
+
+	@OneToOne(mappedBy = "seeker")
+	private GithubAccount githubAccount;
 }

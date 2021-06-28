@@ -24,7 +24,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "advertisements" })
 public class Employer {
 
 	public Employer(User user, String companyName, String webSite, String telephoneNumber, boolean status) {

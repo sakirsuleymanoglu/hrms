@@ -14,20 +14,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "cvs")
+@Table(name = "github_accounts")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CurriculumVitae {
-
+public class GithubAccount {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 
-	@Column(name = "cv_path")
-	private String cvPath;
-	
+	@Column(name = "url")
+	private String url;
+
 	@OneToOne
 	@JoinColumn(name = "seeker_id")
 	private Seeker seeker;

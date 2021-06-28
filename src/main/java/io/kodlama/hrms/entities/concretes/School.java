@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -14,21 +14,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "cvs")
+@Table(name = "schools")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CurriculumVitae {
+public class School {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 
-	@Column(name = "cv_path")
-	private String cvPath;
-	
-	@OneToOne
+	@Column(name = "start_year")
+	private String startYear;
+
+	@Column(name = "end_year")
+	private String endYear;
+
+	@ManyToOne
 	@JoinColumn(name = "seeker_id")
 	private Seeker seeker;
 }
