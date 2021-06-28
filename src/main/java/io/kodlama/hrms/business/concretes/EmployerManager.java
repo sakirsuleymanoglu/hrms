@@ -16,6 +16,7 @@ import io.kodlama.hrms.core.utilities.results.SuccessDataResult;
 import io.kodlama.hrms.core.utilities.results.SuccessResult;
 import io.kodlama.hrms.dataAccess.abstracts.EmployerDao;
 import io.kodlama.hrms.entities.concretes.Employer;
+import io.kodlama.hrms.entities.concretes.Seeker;
 import io.kodlama.hrms.entities.dtos.EmployerRegisterDto;
 
 @Service
@@ -43,7 +44,23 @@ public class EmployerManager implements EmployerService {
 			return result;
 		}
 
-		return null;
+		this.userDao.save(new User(employerRegisterDto.getEmail(), employerRegisterDto.getPassword()));
+
+		User user = this.userDao.findByEmail(employerRegisterDto.getEmail());
+
+		if (user != null) {
+
+			Employer employer = new Employer(user, employerRegisterDto.getCompanyName(), employerRegisterDto.getWebSite(), employerRegisterDto.getTelephoneNumber(), false);
+
+			this.employerDao.save(employer);
+		
+
+			return new SuccessResult("Kayıt başarıyla gerçekleşti");
+
+		} else {
+
+			return new ErrorResult("Kayıt gerçekleşemedi");
+		}
 	}
 
 	private Result checkIfAlreadyExistsEmail(String email) {
@@ -82,8 +99,21 @@ public class EmployerManager implements EmployerService {
 
 	@Override
 	public DataResult<List<Employer>> getAll() {
-		// TODO Auto-generated method stub
 		return new SuccessDataResult<List<Employer>>(this.employerDao.findAll(), "İş verenler listelendi");
+	}
+
+	@Override
+	public Result makeStatusPassive(Employer employer) {
+		employer.setStatus(false);
+		this.employerDao.save(employer);
+		return new SuccessResult("İş veren hesabı pasif hale getirildi");
+	}
+
+	@Override
+	public Result makeStatusActive(Employer employer) {
+		employer.setStatus(true);
+		this.employerDao.save(employer);
+		return new SuccessResult("İş veren hesabı onaylandı ve aktif hale getirildi");
 	}
 
 }

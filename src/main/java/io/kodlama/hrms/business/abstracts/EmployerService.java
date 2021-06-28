@@ -9,5 +9,10 @@ import io.kodlama.hrms.entities.dtos.EmployerRegisterDto;
 
 public interface EmployerService {
 	Result add(EmployerRegisterDto employerRegisterDto);
+
 	DataResult<List<Employer>> getAll();
+
+	Result makeStatusPassive(Employer employer);
+
+	Result makeStatusActive(Employer employer);
 }

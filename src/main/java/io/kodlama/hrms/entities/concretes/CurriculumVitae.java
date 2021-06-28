@@ -5,7 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -13,17 +14,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "cities")
+@Table(name = "cvs")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class City {
+public class CurriculumVitae {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 
-	@Column(name = "name")
-	private String name;
+	@OneToOne
+	@JoinColumn(name = "seeker_id")
+	private Seeker seeker;
+
+	@Column(name = "cv_path")
+	private String cvPath;
 }

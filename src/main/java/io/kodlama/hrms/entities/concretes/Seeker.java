@@ -66,4 +66,7 @@ public class Seeker {
 	@NotBlank
 	@NotNull
 	private String dateOfBirth;
+	
+	@OneToOne(mappedBy = "seeker")
+	private CurriculumVitae curriculumVitae;
 }
