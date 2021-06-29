@@ -18,11 +18,11 @@ import io.kodlama.hrms.entities.concretes.Advertisement;
 
 @RestController
 @RequestMapping("/api/advertisements/")
-public class AdvertisementController {
+public class AdvertisementsController {
 	private AdvertisementService advertisementService;
 
 	@Autowired
-	public AdvertisementController(AdvertisementService advertisementService) {
+	public AdvertisementsController(AdvertisementService advertisementService) {
 		this.advertisementService = advertisementService;
 	}
 

@@ -12,10 +12,10 @@ import io.kodlama.hrms.core.utilities.results.DataResult;
 
 @RestController
 @RequestMapping("/api/users/")
-public class UserController {
+public class UsersController {
 	private UserService userService;
 
-	public UserController(UserService userService) {
+	public UsersController(UserService userService) {
 		this.userService = userService;
 	}
 
